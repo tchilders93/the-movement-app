@@ -1,39 +1,26 @@
-import { useRouter } from "next/router";
-import Layout from "../../components/Layout";
-import movements from "../../public/data/movements.json";
+import data from '../../movements.json';
 
-export default function MovementPage() {
-  const router = useRouter();
-  const { id } = router.query;
+export async function getStaticPaths() {
+  const paths = data.movement_patterns.map((m) => ({
+    params: { id: m.movement_pattern }
+  }));
 
-  const movement = movements.find((m) => m.id === id);
+  return { paths, fallback: false };
+}
 
-  if (!movement) return <Layout>Loading...</Layout>;
+export async function getStaticProps({ params }) {
+  const movement = data.movement_patterns.find(
+    (m) => m.movement_pattern === params.id
+  );
 
+  return { props: { movement } };
+}
+
+export default function MovementPage({ movement }) {
   return (
-    <Layout>
-      <h1>{movement.name}</h1>
-      <p><strong>Pattern:</strong> {movement.pattern}</p>
-
-      <h2>Regressions</h2>
-      <ul>
-        {movement.regressions.map((r, i) => <li key={i}>{r}</li>)}
-      </ul>
-
-      <h2>Progressions</h2>
-      <ul>
-        {movement.progressions.map((p, i) => <li key={i}>{p}</li>)}
-      </ul>
-
-      <h2>Coaching Cues</h2>
-      <ul>
-        {movement.coaching.map((c, i) => <li key={i}>{c}</li>)}
-      </ul>
-
-      <h2>Population Notes</h2>
-      <ul>
-        {movement.population_notes.map((n, i) => <li key={i}>{n}</li>)}
-      </ul>
-    </Layout>
+    <div>
+      <h1>{movement.movement_pattern}</h1>
+      <pre>{JSON.stringify(movement, null, 2)}</pre>
+    </div>
   );
 }
