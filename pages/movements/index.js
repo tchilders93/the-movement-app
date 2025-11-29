@@ -1,51 +1,27 @@
-import { useState, useEffect } from "react";
+import Link from "next/link";
+import movementsData from "../../public/data/movements.json";
 
-export default function MovementsPage() {
-  const [movements, setMovements] = useState([]);
-  const [search, setSearch] = useState("");
-
-  useEffect(() => {
-    async function loadData() {
-      const res = await fetch("/data/movements.json"); // pulling from public/data
-      const data = await res.json();
-      setMovements(data);
-    }
-    loadData();
-  }, []);
-
-  const filtered = movements.filter((m) =>
-    m.name.toLowerCase().includes(search.toLowerCase())
-  );
-
+export default function MovementsIndex() {
   return (
     <div style={{ padding: "20px" }}>
-      <h1>All Movements</h1>
-
-      <input
-        type="text"
-        placeholder="Search movements..."
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
-        style={{
-          padding: "10px",
-          width: "100%",
-          maxWidth: "400px",
-          marginBottom: "20px",
-        }}
-      />
+      <h1>All Movement Patterns</h1>
+      <p>Choose a movement to view regressions & progressions:</p>
 
       <ul>
-        {filtered.map((movement) => (
-          <li key={movement.id} style={{ marginBottom: "12px" }}>
-            <a
-              href={`/movements/${movement.id}`}
-              style={{ color: "blue", textDecoration: "underline" }}
-            >
-              {movement.name}
-            </a>
+        {movementsData.movement_patterns.map((movement, index) => (
+          <li key={index}>
+            <Link href={`/movements/${index}`}>
+              {movement.movement_pattern}
+            </Link>
           </li>
         ))}
       </ul>
+
+      <br />
+      <Link href="/">
+        <button>Back to Home</button>
+      </Link>
     </div>
   );
 }
+
