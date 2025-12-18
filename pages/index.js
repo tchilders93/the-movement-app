@@ -1,38 +1,27 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Layout from "../components/Layout";
-import movementsData from "../data/movements.json";
 
 export default function Home() {
-  const [search, setSearch] = useState("");
+  const [movements, setMovements] = useState([]);
 
-  const movements = movementsData.movement_patterns;
-
-  const filteredMovements = movements.filter((m) =>
-    m.movement_pattern.toLowerCase().includes(search.toLowerCase())
-  );
+  useEffect(() => {
+    fetch("/data/movements.json")
+      .then((res) => res.json())
+      .then((data) => {
+        setMovements(data.movement_patterns);
+      });
+  }, []);
 
   return (
     <Layout>
       <h1>Movement App</h1>
 
-      <input
-        type="text"
-        placeholder="Search movement patterns..."
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
-        style={{
-          padding: "8px",
-          width: "100%",
-          marginBottom: "16px",
-        }}
-      />
+      {movements.length === 0 && <p>Loading movements...</p>}
 
       <ul>
-        {filteredMovements.map((movement, index) => (
-          <li key={index}>
-            <a href={`/movements/${index}`}>
-              {movement.movement_pattern}
-            </a>
+        {movements.map((m) => (
+          <li key={m.movement_pattern}>
+            {m.movement_pattern}
           </li>
         ))}
       </ul>
