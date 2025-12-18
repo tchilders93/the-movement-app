@@ -6,7 +6,7 @@ export default function Home() {
   const [movements, setMovements] = useState([]);
 
   useEffect(() => {
-    fetch("/data/movements.json")
+    fetch("public/data/movements.json")
       .then((res) => res.json())
       .then((data) => {
         setMovements(data.movement_patterns);
@@ -30,3 +30,4 @@ export default function Home() {
     </Layout>
   );
 }
+
