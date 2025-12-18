@@ -16,12 +16,12 @@ export default function Home() {
   return (
     <Layout>
       <h1>Movement App</h1>
-      <p>Select a movement pattern to explore regressions and progressions.</p>
+      <p>Select a movement pattern:</p>
 
       <ul>
-        {movements.map((movement, index) => (
-          <li key={index}>
-            <Link href={`/movements/${index}`}>
+        {movements.map((movement) => (
+          <li key={movement.movement_pattern}>
+            <Link href={`/movements/${encodeURIComponent(movement.movement_pattern)}`}>
               {movement.movement_pattern}
             </Link>
           </li>
