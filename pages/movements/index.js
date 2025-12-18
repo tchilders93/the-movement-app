@@ -1,23 +1,31 @@
-import movementsData from "../../public/data/movements.json";
+import { useEffect, useState } from "react";
+import Layout from "../../components/Layout";
+import Link from "next/link";
 
 export default function MovementsIndex() {
+  const [movements, setMovements] = useState([]);
+
+  useEffect(() => {
+    fetch("/data/movements.json")
+      .then((res) => res.json())
+      .then((data) => {
+        setMovements(data.movement_patterns);
+      });
+  }, []);
+
   return (
-    <div style={{ padding: "20px" }}>
+    <Layout>
       <h1>All Movement Patterns</h1>
 
       <ul>
-        {movementsData.movement_patterns.map((movement) => (
-          <li key={movement.movement_pattern}>
-            <a
-              href={`/movements/${encodeURIComponent(
-                movement.movement_pattern
-              )}`}
-            >
+        {movements.map((movement, index) => (
+          <li key={index}>
+            <Link href={`/movements/${index}`}>
               {movement.movement_pattern}
-            </a>
+            </Link>
           </li>
         ))}
       </ul>
-    </div>
+    </Layout>
   );
 }
