@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import Layout from "../components/Layout";
+import Link from "next/link";
 
 export default function Home() {
   const [movements, setMovements] = useState([]);
@@ -15,13 +16,14 @@ export default function Home() {
   return (
     <Layout>
       <h1>Movement App</h1>
-
-      {movements.length === 0 && <p>Loading movements...</p>}
+      <p>Select a movement pattern to explore regressions and progressions.</p>
 
       <ul>
-        {movements.map((m) => (
-          <li key={m.movement_pattern}>
-            {m.movement_pattern}
+        {movements.map((movement, index) => (
+          <li key={index}>
+            <Link href={`/movements/${index}`}>
+              {movement.movement_pattern}
+            </Link>
           </li>
         ))}
       </ul>
