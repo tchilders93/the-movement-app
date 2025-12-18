@@ -1,0 +1,16 @@
+[
+  {
+    "id": "squat",
+    "name": "Squat",
+    "description": "A foundational lower‑body movement.",
+    "regressions": ["Box Squat", "TRX Squat", "Goblet Squat"],
+    "progressions": ["Barbell Squat", "Front Squat", "Overhead Squat"]
+  },
+  {
+    "id": "pushup",
+    "name": "Push‑Up",
+    "description": "Horizontal pushing pattern.",
+    "regressions": ["Incline Push‑Up", "Knee Push‑Up"],
+    "progressions": ["Decline Push‑Up", "Weighted Push‑Up", "Ring Push‑Up"]
+  }
+]
